@@ -1,0 +1,21 @@
+Test(
+  Fsm(
+    [ State(
+        Some(Initial())
+      , "locked"
+      , [ Transition(
+            Input("ticket")
+          , Some(Action("collect"))
+          , Some(Target("unlocked"))
+          )
+        , Transition(
+            Input("pass")
+          , Some(Action("alarm"))
+          , Some(Target("exception"))
+          )
+        ]
+      )
+    , State(None(), "juhu", [])
+    ]
+  )
+)
