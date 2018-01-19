@@ -12,3 +12,5 @@ Todo
 - Unique names (in states, transitions)
 	- distinct/name D(s)/Var | error @NAMES ?   http://www.metaborg.org/en/latest/source/langdev/meta/lang/nabl2/reference.html#constraints
 - Single initial state
+- ...
+- Remove stuff from calc project
