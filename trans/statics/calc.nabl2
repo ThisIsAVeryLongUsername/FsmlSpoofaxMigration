@@ -17,14 +17,16 @@ rules
  
  //Beginn FSM
  //---------------------------------------------
-  [[ Fsm(states) ^ (s)]] := 
-    States[[ states ^ (s') ]]. 
+  [[ Fsm(states) ^ (s)]] :=
+    distinct/name D(s)/Sta | error $[Duplicate type declaration] @NAMES, 
+    States[[ states ^ (s) ]]. 
 
   States[[ [ state | states ] ^ (s) ]] :=
     State[[ state ^ (s) ]],
     States[[ states ^ (s) ]].
   
-  State[[ State(initial,id,transitions) ^ (s) ]] := 
+  State[[ State(initial,id,transitions) ^ (s) ]] :=
+  	Sta{id} <- s,    
     Transitions[[ transitions ^ (s) ]].
 
   Transitions[[ [ transition | transitions ] ^ (s) ]] :=
