@@ -17,43 +17,38 @@ rules
  
  //Beginn FSM
  //---------------------------------------------
-  [[ Fsm(states) ^ (s)]] :=
-    distinct/name D(s)/Sta | error $[Duplicate state id] @NAMES, 
-    States[[ states ^ (s) ]]. 
+  [[ Fsm(states) ^ (fsmScope)]] :=
+    distinct/name D(fsmScope)/Sta | error $[Duplicate state id] @NAMES,
+    distinct/name D(fsmScope)/Init | error $[Duplicate initial state] @NAMES,  
+    States[[ states ^ (fsmScope) ]]. 
 
-  States[[ [ state | states ] ^ (s) ]] :=
-    State[[ state ^ (s) ]],
-    States[[ states ^ (s) ]].
+  States[[ [ state | states ] ^ (fsmScope) ]] :=
+    State[[ state ^ (fsmScope) ]],
+    States[[ states ^ (fsmScope) ]].
   
-  State[[ State(initial,id,transitions) ^ (s) ]] :=
+  State[[ State(initial,id,transitions) ^ (fsmScope) ]] :=
+    //register State(id) in fsmScope    
+  	Sta{id} <- fsmScope,
+  	Init{initial} <- fsmScope,    
+    //create stateScope, valid inside 1 state to test if Transition(input) in the current state are ambiguous
     new stateScope,
     distinct/name D(stateScope)/Trans | error $[Ambiguous transition] @NAMES,
-  	Sta{id} <- s,    
     Transitions[[ transitions ^ (stateScope) ]].
 
-  Transitions[[ [ transition | transitions ] ^ (s) ]] :=
-    Transition[[ transition ^ (s) ]],
-    Transitions[[ transitions ^ (s) ]].
+  Transitions[[ [ transition | transitions ] ^ (stateScope) ]] :=
+    Transition[[ transition ^ (stateScope) ]],
+    Transitions[[ transitions ^ (stateScope) ]].
     
-   Transition[[ Transition(input, action, target) ^ (s) ]]:= 
-     Trans{input} <- s,
-     [[ input ^ (s) : Input(input) ]],
-     [[ action ^ (s) : Action(action) ]], 
-     [[ target ^ (s) : Target(target) ]]. 
+   Transition[[ Transition(input, action, target) ^ (stateScope) ]]:= 
+     //reigster Transition(input), to test ambiguous input names
+     Trans{input} <- stateScope,
+     [[ input ^ (stateScope) : Input(input) ]],
+     [[ action ^ (stateScope) : Action(action) ]], 
+     [[ target ^ (stateScope) : Target(target) ]]. 
      
    [[ Input(_) ^ (_) : _ ]].
    [[ Some(_) ^ (_) : _ ]].
    [[ None() ^ (_) : _ ]].
-   
-   
-   
-  Map[[ [] ^ (s) ]].
-  Map[[ [ x | xs ] ^ (s) ]] := 
-    [[ x ^ (s) ]], Map[[ xs ^ (s) ]].
-    
-  Map2[[ [] ^ (s, s') ]].
-  Map2[[ [ x | xs ] ^ (s, s') ]] := 
-    [[ x ^ (s, s') ]], Map2[[ xs ^ (s, s') ]].
    
    
    //-------------------------------------------------------
