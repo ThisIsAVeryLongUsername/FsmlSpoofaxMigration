@@ -18,7 +18,7 @@ rules
  //Beginn FSM
  //---------------------------------------------
   [[ Fsm(states) ^ (s)]] :=
-    distinct/name D(s)/Sta | error $[Duplicate type declaration] @NAMES, 
+    distinct/name D(s)/Sta | error $[Duplicate state id] @NAMES, 
     States[[ states ^ (s) ]]. 
 
   States[[ [ state | states ] ^ (s) ]] :=
@@ -26,14 +26,17 @@ rules
     States[[ states ^ (s) ]].
   
   State[[ State(initial,id,transitions) ^ (s) ]] :=
+    new stateScope,
+    distinct/name D(stateScope)/Trans | error $[Ambiguous transition] @NAMES,
   	Sta{id} <- s,    
-    Transitions[[ transitions ^ (s) ]].
+    Transitions[[ transitions ^ (stateScope) ]].
 
   Transitions[[ [ transition | transitions ] ^ (s) ]] :=
     Transition[[ transition ^ (s) ]],
     Transitions[[ transitions ^ (s) ]].
     
    Transition[[ Transition(input, action, target) ^ (s) ]]:= 
+     Trans{input} <- s,
      [[ input ^ (s) : Input(input) ]],
      [[ action ^ (s) : Action(action) ]], 
      [[ target ^ (s) : Target(target) ]]. 
