@@ -19,21 +19,35 @@ rules
  //---------------------------------------------
   [[ Fsm(states) ^ (fsmScope)]] :=
     distinct/name D(fsmScope)/Sta | error $[Duplicate state id] @NAMES,
-    distinct/name D(fsmScope)/Init | error $[Duplicate initial state] @NAMES,  
+    distinct/name D(fsmScope)/Init | error $[Multiple initial states] @NAMES,  
+    D(fsmScope)/InitAll seteq/name D(fsmScope)/InitTest | error $[No initial state] @NAMES,  
     States[[ states ^ (fsmScope) ]]. 
 
   States[[ [ state | states ] ^ (fsmScope) ]] :=
     State[[ state ^ (fsmScope) ]],
     States[[ states ^ (fsmScope) ]].
   
-  State[[ State(initial,id,transitions) ^ (fsmScope) ]] :=
+  State[[ State(Some(Initial()),id,transitions) ^ (fsmScope) ]] :=
     //register State(id) in fsmScope    
   	Sta{id} <- fsmScope,
-  	Init{initial} <- fsmScope,    
+  	Init{Some(Initial())} <- fsmScope,
+  	InitAll{"test"} <- fsmScope,
+  	InitTest{"test"} <- fsmScope,
     //create stateScope, valid inside 1 state to test if Transition(input) in the current state are ambiguous
     new stateScope,
     distinct/name D(stateScope)/Trans | error $[Ambiguous transition] @NAMES,
     Transitions[[ transitions ^ (stateScope) ]].
+    
+  State[[ State(None(),id,transitions) ^ (fsmScope) ]] :=
+    //register State(id) in fsmScope    
+  	Sta{id} <- fsmScope,
+  	InitAll{"test"} <- fsmScope,
+    //create stateScope, valid inside 1 state to test if Transition(input) in the current state are ambiguous
+    new stateScope,
+    distinct/name D(stateScope)/Trans | error $[Ambiguous transition] @NAMES,
+    Transitions[[ transitions ^ (stateScope) ]].
+    
+    
 
   Transitions[[ [ transition | transitions ] ^ (stateScope) ]] :=
     Transition[[ transition ^ (stateScope) ]],
