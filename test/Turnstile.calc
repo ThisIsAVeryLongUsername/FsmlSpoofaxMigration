@@ -12,3 +12,10 @@ state exception {
 	mute ;
 	release -> locked ;
 }
+state exception {
+	ticket / eject ;
+	ticket / eject ;
+	pass ;
+	mute ;
+	release -> locked ;
+}
