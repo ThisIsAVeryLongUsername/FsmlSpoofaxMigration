@@ -5,8 +5,8 @@ imports
   libstratego-gpp
   libspoofax/sdf/pp
   libspoofax/editor/refactoring/-
-  pp/Calc-parenthesize
-  pp/Calc-pp
+  pp/Fsml-parenthesize
+  pp/Fsml-pp
 
 rules
 
@@ -19,33 +19,32 @@ rules
 
 rules
 
-  //parenthesize-calc = id
   
-  pp-Calc-string =
-    parenthesize-Calc
-    ; prettyprint-Calc-start-symbols
+  pp-Fsml-string =
+    parenthesize-Fsml
+    ; prettyprint-Fsml-start-symbols
     ; !V([], <id>)
     ; box2text-string(|120)
       
-  pp-partial-Calc-string =
-    parenthesize-Calc
-    ; prettyprint-Calc
+  pp-partial-Fsml-string =
+    parenthesize-Fsml
+    ; prettyprint-Fsml
     ; !V([], <id>)
     ; box2text-string(|120)
     
-  pp-partial-Calc-string(|sort) =
-    parenthesize-Calc
-    ; prettyprint-Calc(|sort)
+  pp-partial-Fsml-string(|sort) =
+    parenthesize-Fsml
+    ; prettyprint-Fsml(|sort)
     ; !V([], <id>)
     ; box2text-string(|120)  
       
   pp-debug :
     ast -> result
     with
-       result := <pp-Calc-string> ast
-    <+ <bottomup(try(not(is-string); not(is-list); not(pp-Calc-string); debug(!"cannot pp ")))> ast
+       result := <pp-Fsml-string> ast
+    <+ <bottomup(try(not(is-string); not(is-list); not(pp-Fsml-string); debug(!"cannot pp ")))> ast
     ;  result := ""
 
 rules
   
-  construct-textual-change = construct-textual-change(pp-partial-Calc-string, parenthesize, override-reconstruction, resugar)
+  construct-textual-change = construct-textual-change(pp-partial-Fsml-string, parenthesize, override-reconstruction, resugar)

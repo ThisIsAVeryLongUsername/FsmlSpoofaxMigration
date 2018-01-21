@@ -1,4 +1,4 @@
-package org.metaborg.lang.calc.strategies;
+package org.metaborg.lang.fsml.strategies;
 
 import org.strategoxt.lang.JavaInteropRegisterer;
 import org.strategoxt.lang.Strategy;

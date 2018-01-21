@@ -4,7 +4,7 @@ imports signatures/-
 
 strategies
 
-  desugar-calc = topdown(try(desugar))
+  desugar-fsml = topdown(try(desugar))
   
 rules
 

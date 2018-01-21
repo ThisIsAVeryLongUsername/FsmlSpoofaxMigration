@@ -4,7 +4,7 @@ imports
   nabl2shared
   nabl2runtime
   transform/desugar
-  statics/calc
+  statics/fsml
   pp
   codegen/java
 //  codegen/java-concrete
@@ -17,12 +17,12 @@ rules // Desugaring
   // Desugar 
   desugar-aterm: (selected, _, _, path, project-path) -> (filename, result)
     with filename := <guarantee-extension(|"aterm")> path
-       ; result   := <desugar-calc> selected
+       ; result   := <desugar-fsml> selected
 
   // Desugar and pretty-print
   desugar-pp: (selected, _, _, path, project-path) -> (filename, result)
-    with filename := <guarantee-extension(|"desugared.calc")> path
-       ; result   := <desugar-calc; pp-debug> selected
+    with filename := <guarantee-extension(|"desugared.fsml")> path
+       ; result   := <desugar-fsml; pp-debug> selected
        
 
   // Compile to java fsm

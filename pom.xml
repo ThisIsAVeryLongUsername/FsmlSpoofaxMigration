@@ -6,7 +6,7 @@
 >
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.metaborg</groupId>
-  <artifactId>org.metaborg.lang.calc</artifactId>
+  <artifactId>org.metaborg.lang.fsml</artifactId>
   <version>0.1.0-SNAPSHOT</version>
   <packaging>spoofax-language</packaging>
 

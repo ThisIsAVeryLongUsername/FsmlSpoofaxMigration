@@ -1,16 +1,11 @@
-module Calc
+module Fsml
 imports Common
-context-free start-symbols Program
-  
-sorts Program Stat
-context-free syntax    
 
-  Program.Fsm = State *
-
+context-free start-symbols Fsm
   
 sorts Fsm State Transition Initial Input Action Target
 context-free syntax 
-//Fsm.Fsm = State *
+Fsm.Fsm = State *
 
 State.State = <<Initial ?> state <ID> {
 	<Transition *>
@@ -20,7 +15,7 @@ State.State = <<Initial ?> state <ID> {
 Transition.Transition = <<Input> <Action ?> <Target ?>;>
   
 Initial.Initial = <initial>
-  
+ 
 Input.Input = <<ID>>
 Action.Action = </ <ID>>
 Target.Target = <-\> <ID>>

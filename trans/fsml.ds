@@ -1,4 +1,4 @@
-module calc
+module fsml
 imports nabl2/runtime/interpreter/scopegraph-api
 imports nabl2/runtime/interpreter/scopegraph-impl
-imports statics/calc
+imports statics/fsml

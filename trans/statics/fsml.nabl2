@@ -1,4 +1,4 @@
-module statics/calc
+module statics/fsml
 
 imports signatures/- 
 
@@ -65,6 +65,7 @@ rules
   
    //Allow empty states
    Transitions [[ [] ^ (_,_) ]].
+    
     
    Transition[[ Transition(input, action, target) ^ (fsmScope, stateScope) ]]:= 
      //reigster Transition(input) in stateScope, to test ambiguous input names

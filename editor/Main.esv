@@ -4,7 +4,7 @@ imports Syntax Transformation Analysis
 
 language
 
-  extensions : calc
+  extensions : fsm
 
   provider : target/metaborg/stratego.jar
   provider : target/metaborg/stratego-javastrat.jar

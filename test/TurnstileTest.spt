@@ -1,6 +1,6 @@
 module tests
 
-language Calc
+language Fsml
 
 test Determinisim not ok [[
 	initial state stateA {
