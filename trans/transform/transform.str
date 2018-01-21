@@ -24,11 +24,6 @@ rules // Desugaring
     with filename := <guarantee-extension(|"desugared.calc")> path
        ; result   := <desugar-calc; pp-debug> selected
        
-  // Compile to java
-  generate-java : (selected, _, _, path, project-path) -> (filename, result)
-    with filename := <guarantee-extension(|"java")> path     
-       ; result   := <program-to-java(|<base-filename; remove-extension> filename)> selected
-//       ; result   := <program-to-java(|<base-filename; remove-extension> filename); pp-java-string> selected
 
   // Compile to java fsm
   generate-java-fsm : (selected, _, _, path, project-path) -> (filename, result)
