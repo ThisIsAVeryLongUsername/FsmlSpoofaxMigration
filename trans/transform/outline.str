@@ -13,11 +13,19 @@ rules
       outline := <simple-label-outline(to-outline-label)> ast
   
   to-outline-label :
-    State(_, name, _) -> $[[name] : State ] 
-//
-//  to-outline-label :
-//    State(Some(initial), name, _) -> $[[name] : initial State ] 
-//
-//  to-outline-label :
-//    Transition(input, action, target) -> $[[input] [action] [target] : Transition ]
+    State(None(), name, _) -> $[[name] : State ] 
 
+  to-outline-label :
+    State(Some(Initial()), name, _) -> $[[name] : initial State ] 
+
+//  to-outline-label :
+//    Transition(Input(input), None(), None()) -> $[[input] : Transition ] 
+    
+  to-outline-label :
+    Transition(Input(input), Some(Action(action)), None()) -> $[[input] / [action] : Transition ]  
+    
+  to-outline-label :
+    Transition(Input(input), Some(Action(action)), Some(Target(target))) -> $[[input] / [action] -> [target] : Transition ]      
+
+  to-outline-label :
+    Transition(Input(input), None(), Some(Target(target))) -> $[[input] -> [target] : Transition ]        
