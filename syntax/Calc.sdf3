@@ -1,5 +1,5 @@
 module Calc
-imports CalcLexical
+imports Common
 context-free start-symbols Program
   
 sorts Program Stat
@@ -24,4 +24,3 @@ Initial.Initial = <initial>
 Input.Input = <<ID>>
 Action.Action = </ <ID>>
 Target.Target = <-\> <ID>>
-   	  
