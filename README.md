@@ -9,10 +9,10 @@ Working
 - Name bindung  (trans\statics\calc.nabl2)
 - Unique names (in states, transitions)
 - Single initial state
+- get missing states
 
 Todo
-- get unreachacble states
-- get missing states
+- get unreachacble states 
 - ...
 - Remove stuff from calc project
 
