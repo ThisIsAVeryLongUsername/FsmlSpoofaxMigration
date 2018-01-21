@@ -36,7 +36,9 @@ rules
     //create stateScope, valid inside 1 state to test if Transition(input) in the current state are ambiguous
     new stateScope,
     distinct/name D(stateScope)/Trans | error $[Ambiguous transition] @NAMES,
-    Transitions[[ transitions ^ (fsmScope, stateScope) ]].
+    Transitions[[ transitions ^ (fsmScope, stateScope) ]],
+    TransTarget{id} -> fsmScope,
+ 	R(fsmScope)/TransTarget subseteq/name D(fsmScope)/TransTarget | error $[Unreachable state] @NAMES.
     
   State[[ State(None(),id,transitions) ^ (fsmScope) ]] :=
     //register State(id) in fsmScope    
@@ -45,7 +47,9 @@ rules
     //create stateScope, valid inside 1 state to test if Transition(input) in the current state are ambiguous
     new stateScope,
     distinct/name D(stateScope)/Trans | error $[Ambiguous transition] @NAMES,
-    Transitions[[ transitions ^ (fsmScope, stateScope) ]].   
+    Transitions[[ transitions ^ (fsmScope, stateScope) ]],
+    TransTarget{id} -> fsmScope,
+ 	R(fsmScope)/TransTarget subseteq/name D(fsmScope)/TransTarget | error $[Unreachable state] @NAMES.
        
 
   Transitions[[ [ transition | transitions ] ^ (fsmScope, stateScope) ]] :=
@@ -60,6 +64,7 @@ rules
      [[ target ^ (fsmScope, stateScope) ]]. 
      
    [[ Some(Target(target)) ^ (fsmScope, stateScope) ]]:=
+     TransTarget{target} <- fsmScope,
      Sta{target} -> fsmScope,
  	 Sta{target} |-> d | error $[Target state [target] not definied].
    
