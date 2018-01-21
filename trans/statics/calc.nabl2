@@ -9,49 +9,56 @@ signature
     [[ Fsm ^ (scope) ]]
     [[ Program ^ (scope) ]]
     [[ Exp ^ (scope) : Type ]]
-//    Stat[[ Stat ^ (scope, scope) ]]
 
 rules 
 
   init ^ (s) := new s.
  
- //Beginn FSM
- //---------------------------------------------
+  //Begin FSM
+  //---------------------------------------------
+  //Fsm
   [[ Fsm(states) ^ (fsmScope)]] :=
-    distinct/name D(fsmScope)/Sta | error $[Duplicate state id] @NAMES,
-    distinct/name D(fsmScope)/Init | error $[Multiple initial states] @NAMES,  
-    D(fsmScope)/InitAll seteq/name D(fsmScope)/InitTest | error $[No initial state] @NAMES,  
+    //states names have to be unique
+    distinct/name D(fsmScope)/State | error $[Duplicate state id] @NAMES,
+    //only 1 initial states is allowed
+    distinct/name D(fsmScope)/Initial | error $[Multiple initial states] @NAMES,  
+    D(fsmScope)/InitialAll seteq/name D(fsmScope)/InitialTest | error $[No initial state],  
     States[[ states ^ (fsmScope) ]]. 
 
+  //Traverse List of States
   States[[ [ state | states ] ^ (fsmScope) ]] :=
     State[[ state ^ (fsmScope) ]],
     States[[ states ^ (fsmScope) ]].
   
+  // Initial state, handle separatly(e.g. always reachable, Unique initial state)
   State[[ State(Some(Initial()),id,transitions) ^ (fsmScope) ]] :=
-    //register State(id) in fsmScope    
-  	Sta{id} <- fsmScope,
-  	Init{Some(Initial())} <- fsmScope,
-  	InitAll{"test"} <- fsmScope,
-  	InitTest{"test"} <- fsmScope,
-    //create stateScope, valid inside 1 state to test if Transition(input) in the current state are ambiguous
+  	//register State(id) in fsmScope    
+  	State{id} <- fsmScope,
+  	InitialAll{"init"} <- fsmScope,
+    //create stateScope, valid inside the state to test if Transition(input) is unique, i.e. the Transition is ambiguous
     new stateScope,
-    distinct/name D(stateScope)/Trans | error $[Ambiguous transition] @NAMES,
-    Transitions[[ transitions ^ (fsmScope, stateScope) ]].
-    //TransTarget{id} -> fsmScope.
- //	R(fsmScope)/TransTarget subseteq/name D(fsmScope)/TransTarget | error $[Unreachable state] @NAMES.
-    
-  State[[ State(None(),id,transitions) ^ (fsmScope) ]] :=
-    //register State(id) in fsmScope    
-  	Sta{id} <- fsmScope,
-  	InitAll{"test"} <- fsmScope,
-    //create stateScope, valid inside 1 state to test if Transition(input) in the current state are ambiguous
-    new stateScope,
-    distinct/name D(stateScope)/Trans | error $[Ambiguous transition] @NAMES,
+    distinct/name D(stateScope)/Transition | error $[Ambiguous transition] @NAMES,
     Transitions[[ transitions ^ (fsmScope, stateScope) ]],
-    TransTarget{id} -> fsmScope,
- 	R(fsmScope)/TransTarget subseteq/name D(fsmScope)/TransTarget | error $[Unreachable state] @NAMES.
-       
+    //initial specific part
+  	Initial{Some(Initial())} <- fsmScope,
+  	InitialTest{"init"} <- fsmScope.
+  
+  // State (non initial) 
+  State[[ State(None(),id,transitions) ^ (fsmScope) ]] :=
+  	//register State(id) in fsmScope    
+  	State{id} <- fsmScope,
+  	InitialAll{"init"} <- fsmScope,
+    //create stateScope, valid inside the state to test if Transition(input) is unique, i.e. the Transition is ambiguous
+    new stateScope,
+    distinct/name D(stateScope)/Transition | error $[Ambiguous transition] @NAMES,
+    Transitions[[ transitions ^ (fsmScope, stateScope) ]],
+    //non initial specific part
+    TransitionTarget{id} -> fsmScope,
+    //The references must be a subset or equal to the definitions
+ 	R(fsmScope)/TransitionTarget subseteq/name D(fsmScope)/TransitionTarget | warning $[Unreachable state] @NAMES.
 
+
+  //Traverse List of Transitions
   Transitions[[ [ transition | transitions ] ^ (fsmScope, stateScope) ]] :=
     Transition[[ transition ^ (fsmScope, stateScope) ]],
     Transitions[[ transitions ^ (fsmScope, stateScope) ]].
@@ -60,18 +67,21 @@ rules
    Transitions [[ [] ^ (_,_) ]].
     
    Transition[[ Transition(input, action, target) ^ (fsmScope, stateScope) ]]:= 
-     //reigster Transition(input), to test ambiguous input names
-     Trans{input} <- stateScope,
-     [[ input ^ (stateScope, stateScope) ]],
-     [[ action ^ (stateScope, stateScope) ]], 
+     //reigster Transition(input) in stateScope, to test ambiguous input names
+     Transition{input} <- stateScope,
+     [[ input ^ (fsmScope, stateScope) ]],
+     [[ action ^ (fsmScope, stateScope) ]], 
      [[ target ^ (fsmScope, stateScope) ]]. 
-     
-   [[ Some(Target(target)) ^ (fsmScope, stateScope) ]]:=
-     TransTarget{target} <- fsmScope,
-     Sta{target} -> fsmScope,
- 	 Sta{target} |-> d | error $[Target state [target] not definied].
    
+   //Target (optional)  
+   [[ Some(Target(target)) ^ (fsmScope, stateScope) ]]:=
+     TransitionTarget{target} <- fsmScope,
+     State{target} -> fsmScope,
+ 	 State{target} |-> d | error $[Target state [target] not definied].
+   
+   //Matches any (Fsm/Transition/)Input
    [[ Input(_) ^ (_,_) ]].
+   //Used for (Fsm/Transition/)Action and Target beacause they are optional 
    [[ Some(_) ^ (_,_) ]].
    [[ None() ^ (_,_) ]].
    
