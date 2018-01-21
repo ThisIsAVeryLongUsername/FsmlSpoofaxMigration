@@ -36,7 +36,7 @@ rules
     //create stateScope, valid inside 1 state to test if Transition(input) in the current state are ambiguous
     new stateScope,
     distinct/name D(stateScope)/Trans | error $[Ambiguous transition] @NAMES,
-    Transitions[[ transitions ^ (stateScope) ]].
+    Transitions[[ transitions ^ (fsmScope, stateScope) ]].
     
   State[[ State(None(),id,transitions) ^ (fsmScope) ]] :=
     //register State(id) in fsmScope    
@@ -45,24 +45,26 @@ rules
     //create stateScope, valid inside 1 state to test if Transition(input) in the current state are ambiguous
     new stateScope,
     distinct/name D(stateScope)/Trans | error $[Ambiguous transition] @NAMES,
-    Transitions[[ transitions ^ (stateScope) ]].
-    
-    
+    Transitions[[ transitions ^ (fsmScope, stateScope) ]].   
+       
 
-  Transitions[[ [ transition | transitions ] ^ (stateScope) ]] :=
-    Transition[[ transition ^ (stateScope) ]],
-    Transitions[[ transitions ^ (stateScope) ]].
+  Transitions[[ [ transition | transitions ] ^ (fsmScope, stateScope) ]] :=
+    Transition[[ transition ^ (fsmScope, stateScope) ]],
+    Transitions[[ transitions ^ (fsmScope, stateScope) ]].
     
-   Transition[[ Transition(input, action, target) ^ (stateScope) ]]:= 
+   Transition[[ Transition(input, action, target) ^ (fsmScope, stateScope) ]]:= 
      //reigster Transition(input), to test ambiguous input names
      Trans{input} <- stateScope,
-     [[ input ^ (stateScope) : Input(input) ]],
-     [[ action ^ (stateScope) : Action(action) ]], 
-     [[ target ^ (stateScope) : Target(target) ]]. 
+//     [[ input ^ (stateScope, stateScope) : Input(input) ]],
+//     [[ action ^ (stateScope, stateScope) : Action(action) ]], 
+     [[ target ^ (fsmScope, stateScope) ]]. 
      
-   [[ Input(_) ^ (_) : _ ]].
-   [[ Some(_) ^ (_) : _ ]].
-   [[ None() ^ (_) : _ ]].
+   [[ Some(Target(target)) ^ (fsmScope, stateScope) ]]:=
+     Sta{target} -> fsmScope,
+ 	 Sta{target} |-> d | error $[Target state [target] not definied].
+   
+   [[ Input(_) ^ (_,_) : _ ]].
+   [[ None() ^ (_,_) ]].
    
    
    //-------------------------------------------------------
