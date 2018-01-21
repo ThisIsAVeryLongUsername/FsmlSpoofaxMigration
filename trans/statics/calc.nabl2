@@ -55,15 +55,16 @@ rules
    Transition[[ Transition(input, action, target) ^ (fsmScope, stateScope) ]]:= 
      //reigster Transition(input), to test ambiguous input names
      Trans{input} <- stateScope,
-//     [[ input ^ (stateScope, stateScope) : Input(input) ]],
-//     [[ action ^ (stateScope, stateScope) : Action(action) ]], 
+     [[ input ^ (stateScope, stateScope) ]],
+     [[ action ^ (stateScope, stateScope) ]], 
      [[ target ^ (fsmScope, stateScope) ]]. 
      
    [[ Some(Target(target)) ^ (fsmScope, stateScope) ]]:=
      Sta{target} -> fsmScope,
  	 Sta{target} |-> d | error $[Target state [target] not definied].
    
-   [[ Input(_) ^ (_,_) : _ ]].
+   [[ Input(_) ^ (_,_) ]].
+   [[ Some(_) ^ (_,_) ]].
    [[ None() ^ (_,_) ]].
    
    
