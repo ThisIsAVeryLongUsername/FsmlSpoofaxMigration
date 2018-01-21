@@ -11,6 +11,10 @@ Working
 - Single initial state
 
 Todo
-- reachable states
+- get unreachacble states
+- get missing states
 - ...
 - Remove stuff from calc project
+
+Info:
+To show scope graph: When Turnstile opened, Spoofax > Analysis > Debug Project scope graph
