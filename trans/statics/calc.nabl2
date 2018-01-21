@@ -55,6 +55,9 @@ rules
   Transitions[[ [ transition | transitions ] ^ (fsmScope, stateScope) ]] :=
     Transition[[ transition ^ (fsmScope, stateScope) ]],
     Transitions[[ transitions ^ (fsmScope, stateScope) ]].
+  
+   //Allow empty states
+   Transitions [[ [] ^ (_,_) ]].
     
    Transition[[ Transition(input, action, target) ^ (fsmScope, stateScope) ]]:= 
      //reigster Transition(input), to test ambiguous input names
