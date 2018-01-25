@@ -6,5 +6,6 @@ menus
   
 //    action: "Desugar" = desugar-pp (source)
 //    action: "Desugar (AST)" = desugar-aterm (source)
-    action: "Generate Java Fsm" = generate-java-fsm
+    action: "Generate Java Class" = generate-java
+    action: "Generate Java Dot File" = generate-dot
  

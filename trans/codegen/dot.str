@@ -1,0 +1,80 @@
+module codegen/dot
+
+imports 
+  signatures/-
+  nabl2/api
+
+rules // programs
+
+
+  	to-dot(|filename) :
+    	Fsm(state*) ->
+	    $[
+	    	digraph  {
+    				
+    				[state'*]    				
+				}
+    			
+	    ]
+		with
+      		state'* := <map(to-dot-state)> state*
+	
+
+	to-dot-state:
+		State(Some(intial), id_, transition*) ->
+	    $[
+    	[id_]     
+ 	[transition'*]]
+	    with transition'* := <map(to-dot-transition(|$[[id_]]))> transition*
+	    
+	to-dot-state:
+		State(None(), id_, transition*) ->
+	    $[
+ 	[id_]      
+  	[transition'*]]
+	    with transition'* := <map(to-dot-transition(|$[[id_]]))> transition*
+ 	
+ 	to-dot-transition(|parentId):
+ 		Transition(input, Some(action), Some(target)) ->
+ 		$[
+ 		[parentId] -> [target']		label="[input']/[action']"
+ 		]
+ 		with input' := <to-dot-input> input
+		with action' := <to-dot-action> action
+		with target' := <to-dot-target> target
+ 		
+ 	to-dot-transition(|parentId):
+ 		Transition(input, Some(action), None()) ->
+ 		$[
+ 		[parentId] -> [parentId] 		label="[input']/[action']"
+ 		]
+ 		with input' := <to-dot-input> input
+		with action' := <to-dot-action> action
+ 		
+ 	to-dot-transition(|parentId):
+ 		Transition(input, None(), Some(target)) ->
+ 		$[
+ 		[parentId] -> [target']		label="[input']"
+ 		]
+ 		with input' := <to-dot-input> input
+		with target' := <to-dot-target> target
+		
+ 	to-dot-transition(|parentId):
+ 		Transition(input, None(), None()) ->
+  		$[
+ 		[parentId] -> [parentId]	label="[input']"
+ 		]
+ 		with input' := <to-dot-input> input
+
+	to-dot-input:
+		Input(input) -> $["[input]"]
+
+	to-dot-action:
+		Action(action) -> $["[action]"]
+
+	to-dot-target:
+		Target(target) -> $["[target]"]
+	        	
+ 		
+ 		
+ 

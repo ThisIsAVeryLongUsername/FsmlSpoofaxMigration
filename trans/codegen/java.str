@@ -7,7 +7,7 @@ imports
 rules // programs
 
 
-  	fsm-to-java(|filename) :
+  	to-java(|filename) :
     	Fsm(state*) ->
 	    $[
 	    	package de.sschauss.fsml;

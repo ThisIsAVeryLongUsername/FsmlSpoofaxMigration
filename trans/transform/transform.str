@@ -7,6 +7,7 @@ imports
   statics/fsml
   pp
   codegen/java
+  codegen/dot
 //  codegen/java-concrete
 //  pp/metaborg-java-parenthesize
 //  pp/metaborg-java-pp
@@ -25,18 +26,14 @@ rules // Desugaring
        ; result   := <desugar-fsml; pp-debug> selected
        
 
-  // Compile to java fsm
-  generate-java-fsm : (selected, _, _, path, project-path) -> (filename, result)
+  // Transform FSM to Java Class
+  generate-java: (selected, _, _, path, project-path) -> (filename, result)
     with filename := <guarantee-extension(|"java")> path     
-       ; result   := <fsm-to-java(|<base-filename; remove-extension> filename)> selected
-//       ; result   := <program-to-java(|<base-filename; remove-extension> filename); pp-java-string> selected
+       ; result   := <to-java(|<base-filename; remove-extension> filename)> selected
 
-
-
-// to pretty print Java AST nodes       
-//rules
-//  pp-java-string =
-//    parenthesize-metaborg-java
-//    ; prettyprint-metaborg-java-start-symbols
-//    ; !V([], <id>)
-//    ; box2text-string(|120)       
+  // Transform FSM to Graphviz dot file
+  generate-dot: (selected, _, _, path, project-path) -> (filename, result)
+    with filename := <guarantee-extension(|"java")> path     
+       ; result   := <to-dot(|<base-filename; remove-extension> filename)> selected
+       
+       
