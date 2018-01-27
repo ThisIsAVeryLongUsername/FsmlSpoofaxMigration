@@ -4,77 +4,83 @@ imports
   signatures/-
   nabl2/api
 
-rules // programs
+rules
 
-
+	//Transform FSM to Graphviz Dot
   	to-dot(|filename) :
     	Fsm(state*) ->
-	    $[
-	    	digraph  {
-    				
-    				[state'*]    				
-				}
-    			
-	    ]
-		with
-      		state'* := <map(to-dot-state)> state*
+	    $[digraph fsm  {
+    			graph [open]nodesep=0.5, rankdir=LR, title="Sample FSM"[close];
+    			[state'*]    				
+		}]
+		with state'* := <map(to-dot-state)> state*
+      	with open := "["
+ 		with close := "]"
 	
-
+	//initial state
 	to-dot-state:
 		State(Some(intial), id_, transition*) ->
-	    $[
-    	[id_]     
- 	[transition'*]]
+	    $[[id_]; //initial state     
+ 	     [transition'*] [open]style=filled[close]
+ 	    ]
 	    with transition'* := <map(to-dot-transition(|$[[id_]]))> transition*
-	    
+	    with open := "["
+ 		with close := "]"
+	
+	//non initial states    
 	to-dot-state:
 		State(None(), id_, transition*) ->
-	    $[
- 	[id_]      
-  	[transition'*]]
+	    $[[id_]; // state     
+ 	     [transition'*]
+ 	    ]
 	    with transition'* := <map(to-dot-transition(|$[[id_]]))> transition*
- 	
+	
+	//trasition with action and target 	
  	to-dot-transition(|parentId):
  		Transition(input, Some(action), Some(target)) ->
- 		$[
- 		[parentId] -> [target']		label="[input']/[action']"
+ 		$[[parentId] -> [target']	[open]label="[input']/[action']"[close]; // transition
  		]
  		with input' := <to-dot-input> input
 		with action' := <to-dot-action> action
 		with target' := <to-dot-target> target
+		with open := "["
+ 		with close := "]"
  		
+ 	//transition with action
  	to-dot-transition(|parentId):
  		Transition(input, Some(action), None()) ->
- 		$[
- 		[parentId] -> [parentId] 		label="[input']/[action']"
+ 		$[[parentId] -> [parentId]	[open]label="[input']/[action']"[close]; // transition
  		]
  		with input' := <to-dot-input> input
 		with action' := <to-dot-action> action
+		with open := "["
+ 		with close := "]"
  		
+ 	//transition with target
  	to-dot-transition(|parentId):
  		Transition(input, None(), Some(target)) ->
- 		$[
- 		[parentId] -> [target']		label="[input']"
+ 		$[[parentId] -> [target']	[open]label="[input']"[close]; // transition
  		]
  		with input' := <to-dot-input> input
 		with target' := <to-dot-target> target
-		
+		with open := "["
+ 		with close := "]"
+ 	
+ 	//transition without action wor target	
  	to-dot-transition(|parentId):
  		Transition(input, None(), None()) ->
-  		$[
- 		[parentId] -> [parentId]	label="[input']"
+ 		$[[parentId] -> [parentId]	[open]label="[input']"[close]; // transition
  		]
  		with input' := <to-dot-input> input
+		with open := "["
+ 		with close := "]"
 
 	to-dot-input:
-		Input(input) -> $["[input]"]
+		Input(input) -> $[[input]]
 
 	to-dot-action:
-		Action(action) -> $["[action]"]
+		Action(action) -> $[[action]]
 
 	to-dot-target:
-		Target(target) -> $["[target]"]
+		Target(target) -> $[[target]]
 	        	
- 		
- 		
- 

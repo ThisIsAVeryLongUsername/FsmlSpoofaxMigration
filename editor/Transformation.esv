@@ -7,5 +7,5 @@ menus
 //    action: "Desugar" = desugar-pp (source)
 //    action: "Desugar (AST)" = desugar-aterm (source)
     action: "Generate Java Class" = generate-java
-    action: "Generate Java Dot File" = generate-dot
+    action: "Generate Graphviz Dot File" = generate-dot
  
