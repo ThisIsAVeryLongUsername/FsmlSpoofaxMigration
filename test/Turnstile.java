@@ -15,11 +15,13 @@ public class Sample {
 		
 		fsm.getStates().add(new State(false, "unlocked)");	      
 		fsm.getTransitions().add(new Transition("ticket", "eject", null));
+		fsm.getTransitions().add(new Transition("pass", null, "locked"));
 		
 		fsm.getStates().add(new State(false, "exception)");	      
 		fsm.getTransitions().add(new Transition("ticket", "eject", null));
 		fsm.getTransitions().add(new Transition("pass", null, null));
 		fsm.getTransitions().add(new Transition("mute", null, null));
+		fsm.getTransitions().add(new Transition("release", null, "locked"));
 		    				
 	}
 	
