@@ -4,25 +4,25 @@ imports
   signatures/-
   nabl2/api
 
-rules // programs
+rules
 
-
+	//Transform Fsm to Java
   	to-java(|filename) :
     	Fsm(state*) ->
 	    $[
-	    	package de.sschauss.fsml;
-    		
-    		public class Sample {
-    			
-    			public static Fsm fsm;
-    			
-    			static {
-    				fsm = new Fsm();
-    				
-    				[state'*]    				
-				}
-    			
-    		} 
+    	package de.sschauss.fsml;
+		
+		public class Sample {
+			
+			public static Fsm fsm;
+			
+			static {
+				fsm = new Fsm();
+				
+				[state'*]    				
+			}
+			
+		} 
 	    ]
 		with
       		state'* := <to-java> state*

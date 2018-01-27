@@ -5,9 +5,8 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 >
   <modelVersion>4.0.0</modelVersion>
-  <groupId>org.metaborg</groupId>
-  <artifactId>org.metaborg.lang.fsml</artifactId>
-  <version>0.1.0-SNAPSHOT</version>
+  <artifactId>de.sschauss.fsml</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
   <packaging>spoofax-language</packaging>
 
   <parent>
@@ -70,4 +69,5 @@
         <version>${metaborg-version}</version>
   	</dependency>
   </dependencies>
+  <groupId>de.sschauss</groupId>
 </project>

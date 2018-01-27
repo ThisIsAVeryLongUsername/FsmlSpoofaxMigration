@@ -1,4 +1,4 @@
-package org.metaborg.lang.fsml.strategies;
+package de.sschauss.fsml.strategies;
 
 import org.strategoxt.lang.Context;
 

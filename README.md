@@ -2,16 +2,17 @@ Requirements:
 - Spoofax 2.5.0
 
 Working
-- Lanugage Definition (syntax/Calc.sdf3)
-- Code Generation (trans/codegen/java.str, Spoofax > Transform > Generate Java Fsm)
-- Name binding  (trans/statics/calc.nabl2)
-- Unique names (in states, transitions)
-- Single initial state
-- get missing states
-- get unreachable states 
+- Language Definition (syntax/Fsml.sdf3)
+- Tests (test/TurnstileTest.spt) 
+- Code Generation (trans/codegen/java.str, Spoofax > Transform > Generate Java Class)
+- Graphviz Dot file generation (trans/codegen/java.str, Spoofax > Transform > Generate Graphviz Dot file)
+- Outline showing states and transitions in when .fsm file is open. (trans/transform/outline.str, )
+- Name binding  (trans/statics/fsml.nabl2)
+  - Unique state names (in states, transitions)
+  - Single initial state
+  - get missing states
+  - get unreachable states 
 
-Todo
-- 
 
 Info:
 To show scope graph: When Turnstile opened, Spoofax > Analysis > Debug Project scope graph

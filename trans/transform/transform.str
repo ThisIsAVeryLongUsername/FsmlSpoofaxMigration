@@ -3,28 +3,11 @@ module transform
 imports
   nabl2shared
   nabl2runtime
-  transform/desugar
   statics/fsml
-  pp
   codegen/java
   codegen/dot
-//  codegen/java-concrete
-//  pp/metaborg-java-parenthesize
-//  pp/metaborg-java-pp
   
-  
-rules // Desugaring
-  
-  // Desugar 
-  desugar-aterm: (selected, _, _, path, project-path) -> (filename, result)
-    with filename := <guarantee-extension(|"aterm")> path
-       ; result   := <desugar-fsml> selected
-
-  // Desugar and pretty-print
-  desugar-pp: (selected, _, _, path, project-path) -> (filename, result)
-    with filename := <guarantee-extension(|"desugared.fsml")> path
-       ; result   := <desugar-fsml; pp-debug> selected
-       
+rules
 
   // Transform FSM to Java Class
   generate-java: (selected, _, _, path, project-path) -> (filename, result)
@@ -33,7 +16,7 @@ rules // Desugaring
 
   // Transform FSM to Graphviz dot file
   generate-dot: (selected, _, _, path, project-path) -> (filename, result)
-    with filename := <guarantee-extension(|"java")> path     
+    with filename := <guarantee-extension(|"dot")> path     
        ; result   := <to-dot(|<base-filename; remove-extension> filename)> selected
        
        

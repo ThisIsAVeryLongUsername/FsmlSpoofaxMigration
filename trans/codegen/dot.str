@@ -10,7 +10,10 @@ rules
   	to-dot(|filename) :
     	Fsm(state*) ->
 	    $[digraph fsm  {
+	    
+	    		//setup
     			graph [open]nodesep=0.5, rankdir=LR, title="Sample FSM"[close];
+    			
     			[state'*]    				
 		}]
 		with state'* := <map(to-dot-state)> state*
@@ -20,8 +23,8 @@ rules
 	//initial state
 	to-dot-state:
 		State(Some(intial), id_, transition*) ->
-	    $[[id_]; //initial state     
- 	     [transition'*] [open]style=filled[close]
+	    $[[id_]	[open]style=filled[close]; //initial state     
+ 	     [transition'*]
  	    ]
 	    with transition'* := <map(to-dot-transition(|$[[id_]]))> transition*
 	    with open := "["

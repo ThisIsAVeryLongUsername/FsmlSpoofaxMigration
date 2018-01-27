@@ -12,7 +12,8 @@ State.State = <<Initial ?> state <ID> {
 }>
 
 
-Transition.Transition = <<Input> <Action ?> <Target ?>;>
+Transition.Transition = <<Input> <Action ?> <Target ?>;
+>
   
 Initial.Initial = <initial>
  

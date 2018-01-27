@@ -1,5 +1,5 @@
 ---
-id: org.metaborg:org.metaborg.lang.fsml:0.1.0-SNAPSHOT
+id: de.sschauss:de.sschauss.fsml:0.1.0-SNAPSHOT
 name: Fsml
 dependencies:
   compile:
