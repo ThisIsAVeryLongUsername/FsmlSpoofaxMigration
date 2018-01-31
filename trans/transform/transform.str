@@ -6,6 +6,7 @@ imports
   statics/fsml
   codegen/java
   codegen/dot
+  transform/rewrite
   
 rules
 
@@ -18,5 +19,10 @@ rules
   generate-dot: (selected, _, _, path, project-path) -> (filename, result)
     with filename := <guarantee-extension(|"dot")> path     
        ; result   := <to-dot(|<base-filename; remove-extension> filename)> selected
-       
+
+  //Rewrite Test Environment 
+  rewrite-state-transformation: (selected, _, _, path, project-path) -> (filename, result)
+    with filename := <guarantee-extension(|"rewrite")> path     
+       ; result   := <rewrite-state-start> selected
+        
        

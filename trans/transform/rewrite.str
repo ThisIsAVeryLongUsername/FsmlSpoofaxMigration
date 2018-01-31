@@ -1,0 +1,17 @@
+module rewrite
+
+imports
+  
+  signatures/-
+  nabl2/api
+
+strategies
+
+  rewrite-state-start = topdown(try(rewrite-state))
+
+rules
+	//goal get rewrite test environment
+  	
+  	//CS -> AST -> CS
+  	rewrite-state:
+  	  State(initial,name,transitions) -> State(initial,"test:)",transitions)

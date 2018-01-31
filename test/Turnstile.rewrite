@@ -1,0 +1,18 @@
+Fsm(
+  [ State(
+      Some(Initial(){TermIndex("test/Turnstile.fsm", 1)}){TermIndex("test/Turnstile.fsm", 2)}
+    , "test:)"
+    , [ Transition(
+          Input("ticket"{TermIndex("test/Turnstile.fsm", 4)}){TermIndex("test/Turnstile.fsm", 5)}
+        , Some(Action("collect"{TermIndex("test/Turnstile.fsm", 6)}){TermIndex("test/Turnstile.fsm", 7)}){TermIndex("test/Turnstile.fsm", 8)}
+        , Some(Target("locked"{TermIndex("test/Turnstile.fsm", 9)}){TermIndex("test/Turnstile.fsm", 10)}){TermIndex("test/Turnstile.fsm", 11)}
+        ){TermIndex("test/Turnstile.fsm", 12)}
+      , Transition(
+          Input("pass"{TermIndex("test/Turnstile.fsm", 13)}){TermIndex("test/Turnstile.fsm", 14)}
+        , Some(Action("alarm"{TermIndex("test/Turnstile.fsm", 15)}){TermIndex("test/Turnstile.fsm", 16)}){TermIndex("test/Turnstile.fsm", 17)}
+        , Some(Target("locked"{TermIndex("test/Turnstile.fsm", 18)}){TermIndex("test/Turnstile.fsm", 19)}){TermIndex("test/Turnstile.fsm", 20)}
+        ){TermIndex("test/Turnstile.fsm", 21)}
+      ]
+    )
+  ]
+){TermIndex("test/Turnstile.fsm", 30)}
