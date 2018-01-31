@@ -12,6 +12,6 @@ strategies
 rules
 	//goal get rewrite test environment
   	
-  	//CS -> AST -> CS
+  	//CST -> AST -> rewrite -> CST
   	rewrite-state:
-  	  State(initial,name,transitions) -> State(initial,"test:)",transitions)
+  	  State(initial,name,transitions) -> State(initial,$[[name]-rewrite],transitions)
